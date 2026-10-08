@@ -1,0 +1,1 @@
+import{w as o,r as w}from"./vue-D3wW_shY.js";function f(i,u,a){const e=w([]);let r;return o(i,t=>{u.value=1,e.value=[],r=t}),o(a,t=>{if(!t)return;const n=i();if(r!==n){r=n,u.value=1,e.value=t.rows;return}const l=new Set(e.value.map(s=>s.id)),v=t.rows.filter(s=>!l.has(s.id));e.value=u.value===1?t.rows:[...e.value,...v]},{immediate:!0}),e}export{f as u};

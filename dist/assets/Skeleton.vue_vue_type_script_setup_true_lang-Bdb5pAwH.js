@@ -1,0 +1,1 @@
+import{e as s}from"./index-DiSmoD1l.js";import{j as a,p as r,q as n,G as o,u as p}from"./vue-D3wW_shY.js";const u=a({__name:"Skeleton",props:{class:{}},setup(t){return(e,c)=>(r(),n("div",{class:o(p(s)("animate-pulse rounded-md bg-muted-surface",e.$props.class)),"aria-hidden":"true"},null,2))}});export{u as _};

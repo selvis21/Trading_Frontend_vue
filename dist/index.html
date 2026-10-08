@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="application-name" content="BPPrime CRM" />
+    <meta name="apple-mobile-web-app-title" content="BPPrime CRM" />
+    <meta name="theme-color" content="#D9B34B" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/brand/bp-prime-logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
+    <title>BPPrime CRM</title>
+
+    <!-- Pre-hydration theme: apply persisted/system color scheme before paint
+         to avoid FOUC. Mirrors the former Blade shell. -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('crm.theme'); // 'light' | 'dark' | 'system'
+          var mode = stored || 'system';
+          var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var dark = mode === 'dark' || (mode === 'system' && systemDark);
+          document.documentElement.classList.toggle('dark', dark);
+          document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+          var density = localStorage.getItem('crm.density'); // 'comfortable' | 'compact'
+          if (density === 'compact')
+            document.documentElement.classList.add('density-compact');
+        } catch (e) {}
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-DiSmoD1l.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vue-D3wW_shY.js">
+    <link rel="modulepreload" crossorigin href="/assets/query-BcCeuHvq.js">
+    <link rel="modulepreload" crossorigin href="/assets/ui-DYLQ4LJD.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-DoSxq91Z.css">
+  </head>
+  <body class="h-full bg-bg font-sans text-fg antialiased">
+    <div id="app"></div>
+  </body>
+</html>

@@ -1,0 +1,245 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@source '../**/*.vue';
+@source '../**/*.ts';
+
+/* Dark mode is class-driven (.dark on <html>), set pre-hydration in app.blade.php. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------ *
+ * BPPrime CRM — design tokens (HSL channels, no commas).
+ *
+ * BRAND PALETTE — derived from the official BP Prime logo asset
+ * (public/brand/bp-prime-logo.png), sampled directly from the file:
+ *   gold mark         #D9B34B   -> --brand
+ *   charcoal wordmark #2E2D2C   -> --brand-ink
+ *
+ * TWO-TIER GOLD — required for WCAG. The logo gold (#D9B34B) is only
+ * 2.00:1 against white, so it may ONLY be used as a *fill* paired with
+ * charcoal text (6.87:1, AAA). It must never be used for text, links or
+ * borders on light surfaces. Hence:
+ *   --brand   (#D9B34B) = FILL -> bg-brand, always with --brand-ink text
+ *   --primary (#7C6B08) = TEXT -> text-primary / ring-primary / bg-primary
+ *                              tints. 4.91:1 on white, 4.64:1 on its own
+ *                              10% tint (active nav, selected rows).
+ *
+ * SEMANTIC COLOURS stay semantic and are never gold:
+ * success = green, danger = red, warning = amber, info = neutral slate.
+ *
+ * Light defaults live in :root; .dark overrides below. Tailwind maps
+ * these to utilities via the @theme block further down.
+ * ------------------------------------------------------------------ */
+:root {
+  --bg: 0 0% 100%;
+  --surface: 0 0% 100%;
+  --surface-raised: 0 0% 100%;
+  --surface-sunken: 60 17% 98%;
+  --fg: 0 0% 15%;
+  --muted: 40 4% 40%;
+  --muted-surface: 43 24% 94%;
+  --border: 44 17% 87%;
+  --input: 43 15% 82%;
+  --ring: 51 88% 26%;
+
+  /* Text/contrast-safe brand gold. Never use as a large gold fill. */
+  --primary: 51 88% 26%;
+  --primary-fg: 0 0% 100%;
+
+  /* Logo gold — fills only, always with --brand-ink text. */
+  --brand: 44 65% 57%;
+  --brand-hover: 45 58% 48%;
+  --brand-ink: 30 2% 18%;
+  --brand-ink-soft: 0 0% 20%;
+  --brand-gold-soft: 45 71% 89%;
+
+  --accent: 30 2% 18%;
+  --accent-fg: 0 0% 100%;
+
+  /* Semantic status palette (canonical across all modules).
+   * Light-mode values are darkened so every one clears WCAG AA (4.5:1)
+   * as TEXT on white as well as being usable as a fill — success and
+   * warning previously sat at 3.21:1 / 2.13:1 and failed. */
+  --status-neutral: 40 4% 40%;
+  --status-info: 217 14% 41%;
+  --status-warning: 38 88% 30%;
+  --status-success: 152 55% 30%;
+  --status-danger: 0 72% 44%;
+  --status-accent: 262 45% 42%;
+  /* Foreground for text sitting ON a solid success/danger/warning fill.
+     Status fills are dark in light mode and light in dark mode, so this
+     has to flip with the theme — white-on-light-green was only 2.27:1. */
+  --on-status: 0 0% 100%;
+
+  /* Money — by direction, never by status */
+  --money-positive: 152 58% 30%;
+  --money-negative: 0 72% 44%;
+
+  --radius: 0.5rem;
+
+  /* Density-driven row height (overridden by .density-compact) */
+  --row-height: 2.75rem;   /* 44px comfortable */
+  --cell-py: 0.625rem;
+}
+
+.dark {
+  --bg: 30 5% 7%;
+  --surface: 30 4% 11%;
+  --surface-raised: 20 4% 14%;
+  --surface-sunken: 0 4% 5%;
+  --fg: 40 38% 94%;
+  --muted: 40 8% 63%;
+  --muted-surface: 30 5% 16%;
+  --border: 30 6% 20%;
+  --input: 34 6% 25%;
+  --ring: 45 68% 62%;
+
+  --primary: 45 68% 62%;
+  --primary-fg: 30 4% 11%;
+
+  --brand: 45 70% 64%;
+  --brand-hover: 45 61% 57%;
+  --brand-ink: 30 4% 11%;
+  --brand-ink-soft: 41 26% 88%;
+  --brand-gold-soft: 42 28% 18%;
+
+  --accent: 39 14% 71%;
+  --accent-fg: 30 5% 7%;
+
+  --status-neutral: 40 8% 63%;
+  --status-info: 215 13% 64%;
+  --status-warning: 38 95% 58%;
+  --status-success: 152 52% 50%;
+  --status-danger: 0 72% 62%;
+  --status-accent: 262 62% 76%;
+  --on-status: 30 4% 11%;
+
+  --money-positive: 152 52% 52%;
+  --money-negative: 0 72% 62%;
+}
+
+.density-compact {
+  --row-height: 2rem;      /* 32px compact */
+  --cell-py: 0.3125rem;
+}
+
+@theme inline {
+  --color-bg: hsl(var(--bg));
+  --color-surface: hsl(var(--surface));
+  --color-surface-raised: hsl(var(--surface-raised));
+  --color-surface-sunken: hsl(var(--surface-sunken));
+  --color-fg: hsl(var(--fg));
+  --color-muted: hsl(var(--muted));
+  --color-muted-surface: hsl(var(--muted-surface));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-fg: hsl(var(--primary-fg));
+  --color-accent: hsl(var(--accent));
+  --color-accent-fg: hsl(var(--accent-fg));
+
+  /* BP Prime brand scale */
+  --color-brand: hsl(var(--brand));
+  --color-brand-hover: hsl(var(--brand-hover));
+  --color-brand-ink: hsl(var(--brand-ink));
+  --color-brand-ink-soft: hsl(var(--brand-ink-soft));
+  --color-brand-gold-soft: hsl(var(--brand-gold-soft));
+
+  --color-status-neutral: hsl(var(--status-neutral));
+  --color-status-info: hsl(var(--status-info));
+  --color-status-warning: hsl(var(--status-warning));
+  --color-status-success: hsl(var(--status-success));
+  --color-status-danger: hsl(var(--status-danger));
+  --color-status-accent: hsl(var(--status-accent));
+  --color-on-status: hsl(var(--on-status));
+
+  --color-money-positive: hsl(var(--money-positive));
+  --color-money-negative: hsl(var(--money-negative));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Menlo', monospace;
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: hsl(var(--bg));
+    color: hsl(var(--fg));
+  }
+
+  /* Tabular figures for any numeric / financial context */
+  .tabular-nums,
+  .font-mono,
+  table {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Visible, never-removed focus ring */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: hsl(var(--primary) / 0.25);
+  }
+
+  /* Slimmer, themed scrollbars (Binance-console density) */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted) / 0.35);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted) / 0.55);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Global top loading bar (route transitions / Vue Query fetching) */
+  .loading-bar {
+    background: linear-gradient(90deg, hsl(var(--brand)), hsl(var(--accent)));
+  }
+
+  /* Logo plate — the BP Prime lockup has a transparent background and a
+   * charcoal wordmark, so it needs a light plate to stay legible on any
+   * surface (seamless on light chrome, a deliberate tile in dark mode). */
+  .brand-plate {
+    background-color: #ffffff;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.06);
+  }
+  .dark .brand-plate {
+    background-color: #ffffff;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.14);
+  }
+}
